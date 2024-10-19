@@ -5,13 +5,35 @@ let timeLimit = 120; // 2 minutes
 
 // Fetch a random text file from the GitHub repo
 async function fetchRandomFile() {
-    const repoUrl = 'https://api.github.com/repos/{username}/{repo}/contents/{folder}'; // Replace with your actual repo URL
-    const response = await fetch(repoUrl);
-    const files = await response.json();
-    const txtFiles = files.filter(file => file.name.endsWith('.txt'));
-    const randomFile = txtFiles[Math.floor(Math.random() * txtFiles.length)];
-    const fileContent = await fetch(randomFile.download_url);
-    return fileContent.text();
+    const repoUrl = 'https://api.github.com/repos/atrajit-sarkar/TypingPracticeWebsite/contents/PracticeFiles';
+
+    try {
+        const response = await fetch(repoUrl);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
+
+        const files = await response.json();
+        const txtFiles = files.filter(file => file.name.endsWith('.txt'));
+
+        if (txtFiles.length === 0) {
+            throw new Error("No .txt files found in the folder");
+        }
+
+        const randomFile = txtFiles[Math.floor(Math.random() * txtFiles.length)];
+        const fileContentResponse = await fetch(randomFile.download_url);
+
+        if (!fileContentResponse.ok) {
+            throw new Error(`Failed to fetch file content: ${fileContentResponse.statusText}`);
+        }
+
+        return fileContentResponse.text();
+
+    } catch (error) {
+        console.error("Error fetching text file: ", error);
+        return "Error fetching text file.";
+    }
 }
 
 // Load random text and initialize the typing test
@@ -59,20 +81,29 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
     correctChars = 0;
     incorrectChars = 0;
     let displayText = '';
+    let completed = true;
 
     for (let i = 0; i < originalText.length; i++) {
         if (userInput[i] === originalText[i]) {
-            displayText += `<span>${originalText[i]}</span>`;
+            displayText += `<span class="correct">${originalText[i]}</span>`;
             correctChars++;
         } else if (userInput[i]) {
             displayText += `<span class="incorrect">${originalText[i]}</span>`;
             incorrectChars++;
+            completed = false;  // Mark as incomplete if any incorrect characters
         } else {
-            displayText += `<span>${originalText[i]}</span>`;
+            displayText += `<span class="faded">${originalText[i]}</span>`;
+            completed = false;  // Mark as incomplete if there are remaining characters
         }
     }
 
     document.getElementById('textToType').innerHTML = displayText;
+
+    // If the user has finished typing correctly, stop the timer and show results
+    if (completed && userInput.length === originalText.length) {
+        clearInterval(timerInterval);
+        showResults();
+    }
 });
 
 // Calculate WPM

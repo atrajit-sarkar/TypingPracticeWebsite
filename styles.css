@@ -10,8 +10,8 @@ body {
 
 .container {
     text-align: center;
-    width: 100%;
-    max-width: 600px;
+    width: 119%;
+    max-width: 767px;
     padding: 20px;
     background: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -28,7 +28,7 @@ body {
 }
 
 textarea {
-    width: 100%;
+    width: 96%;
     padding: 10px;
     font-size: 18px;
     border: 2px solid #ccc;
@@ -51,6 +51,21 @@ textarea:focus {
     margin: 10px 0;
 }
 
+
+
+/* Faded initial text */
+.faded {
+    color: #575555; /* Faded gray */
+}
+
+/* Correctly typed characters */
+.correct {
+    color: green;
+    font-weight: bold;
+}
+
+/* Incorrectly typed characters */
 .incorrect {
     color: red;
+    font-weight: bold;
 }
