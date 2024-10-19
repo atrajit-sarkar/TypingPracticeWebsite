@@ -1,4 +1,151 @@
-Sure! Below is a complete codebase for a typing practice website that follows the specifications you mentioned.
+Create a type practicing website with the following idea!
+
+1. The website should be professionally designed
+2. The website should be compatible with mobile vertical and horizontal view
+3. It should fetch a Txt file from the GitHub repo with multiple Txt files. Also, the fetch will be random Txt files each time the website refreshes and it will display the content of the Txt file that the user has to write for typing practice. 
+4. The website should detect typing and measure wpm and accuracy, and incorrect typing should be dynamically highlighted in red.
+5. After the test, the website should show the final result as wpm and accuracy.
+6. The website should also play key-pressing sounds and set a timer for 2 minutes when the user starts typing. After the timer ends, the website should show the above-mentioned results. 
+
+Here's an outline for developing a professional typing practice website with the features you described:
+
+### 1. **Design and Responsiveness**
+   - **UI Design:** 
+     - Clean and minimalistic design for a professional look.
+     - Neutral color schemes (whites, grays, soft blues) for a distraction-free environment.
+     - Typography focused on readability (e.g., Roboto, Open Sans).
+     - Add subtle animations (e.g., keypress animations, progress bar during typing).
+   
+   - **Responsive Design:** 
+     - Ensure compatibility for both mobile and desktop.
+     - Use flexible grids (e.g., CSS Grid/Flexbox) and media queries for vertical and horizontal mobile views.
+   
+   - **Important Elements:**
+     - A centered text box for displaying the fetched text.
+     - A progress indicator or visual timer.
+     - Input field for typing (or live area where the user’s text appears).
+     - A results area that will show after the test ends (WPM, accuracy).
+
+### 2. **Random Txt Fetching**
+   - Use **GitHub API** to fetch files from a GitHub repository.
+   - You can create multiple `.txt` files in the repo and write a function to randomly pick one file for each refresh.
+   
+   **Steps:**
+   - Fetch the list of `.txt` files from the repository.
+   - Use `Math.random()` or a similar method to pick one.
+   - Display the content in the typing area.
+
+   **Example JavaScript Code:**
+   ```js
+   async function fetchRandomFile() {
+       const repoUrl = 'https://api.github.com/repos/{username}/{repo}/contents/{folder}';
+       const response = await fetch(repoUrl);
+       const files = await response.json();
+       const txtFiles = files.filter(file => file.name.endsWith('.txt'));
+       const randomFile = txtFiles[Math.floor(Math.random() * txtFiles.length)];
+       const fileContent = await fetch(randomFile.download_url);
+       return fileContent.text();
+   }
+   ```
+
+### 3. **Typing Detection, WPM, and Accuracy**
+   - Use JavaScript to capture the user's input and measure the **WPM (Words Per Minute)** and **accuracy**.
+   - Track the correct and incorrect inputs in real time, highlighting incorrect characters in red.
+   
+   **Steps:**
+   - Start tracking once the user starts typing.
+   - Measure **WPM** using the formula: `WPM = (characters / 5) / minutes`.
+   - Track **accuracy** by comparing the user's input to the fetched text. Highlight errors in real time.
+
+   **Example JavaScript Code:**
+   ```js
+   let startTime;
+   let totalChars = 0, correctChars = 0;
+   
+   document.getElementById('inputBox').addEventListener('input', function(e) {
+       if (!startTime) startTime = new Date();
+       const userInput = e.target.value;
+       totalChars = userInput.length;
+       correctChars = 0;
+
+       for (let i = 0; i < userInput.length; i++) {
+           if (userInput[i] === originalText[i]) {
+               correctChars++;
+               // Highlight correct characters (optional)
+           } else {
+               // Highlight incorrect characters in red
+               e.target.style.color = 'red';
+           }
+       }
+   });
+   
+   function calculateWPM() {
+       const timeElapsed = (new Date() - startTime) / 60000; // in minutes
+       return (correctChars / 5) / timeElapsed;
+   }
+   
+   function calculateAccuracy() {
+       return (correctChars / totalChars) * 100;
+   }
+   ```
+
+### 4. **Keypress Sounds**
+   - Use JavaScript’s `Audio` API to play a sound on each keypress.
+   
+   **Example Code:**
+   ```js
+   document.addEventListener('keydown', function() {
+       const audio = new Audio('path_to_keypress_sound.mp3');
+       audio.play();
+   });
+   ```
+
+### 5. **Timer for 2 Minutes**
+   - Set a countdown timer for 2 minutes, after which the typing test automatically ends, and results (WPM, accuracy) are displayed.
+   
+   **Example Code:**
+   ```js
+   let timeLimit = 120; // 2 minutes in seconds
+
+   function startTimer() {
+       const timer = setInterval(() => {
+           timeLimit--;
+           if (timeLimit === 0) {
+               clearInterval(timer);
+               // Show results here
+               showResults();
+           }
+       }, 1000);
+   }
+   ```
+
+### 6. **Displaying Final Results**
+   - Once the timer ends or the user finishes typing, display the final **WPM** and **accuracy** in a results section.
+   
+   **Example Code:**
+   ```js
+   function showResults() {
+       const wpm = calculateWPM();
+       const accuracy = calculateAccuracy();
+       document.getElementById('results').innerHTML = `
+           <p>WPM: ${wpm.toFixed(2)}</p>
+           <p>Accuracy: ${accuracy.toFixed(2)}%</p>
+       `;
+   }
+   ```
+
+### 7. **Tech Stack**
+   - **Frontend:** HTML, CSS (Bootstrap for responsiveness), JavaScript
+   - **Backend (Optional for Fetching Files):** GitHub API (or you can host static text files if no backend is needed)
+   - **Hosting:** GitHub Pages or Netlify
+
+### Next Steps:
+1. Design the layout using HTML and CSS with mobile responsiveness in mind.
+2. Implement the random text fetching and typing tracking with JavaScript.
+3. Add keypress sounds and timer functionality.
+4. Test across different devices (mobile and desktop) to ensure a smooth experience.
+
+## Complete Source Code:
 
 ### 1. **HTML (index.html)**
 
