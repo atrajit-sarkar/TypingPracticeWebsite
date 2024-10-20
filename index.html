@@ -17,7 +17,20 @@
         </div>
         <textarea id="inputBox" placeholder="Start typing here..."></textarea>
         <div class="results">
-            <p id="timer">Time: 2:00</p>
+            <form id="timer">
+                <label for="colors">Choose test duration:</label>
+                <select id="colors" name="colors">
+                    <option value="" disabled selected>Select a color</option>
+                    <option value="120">2:00</option>
+                    <option value="180">3:00</option>
+                    <option value="60">1:00</option>
+                    <option value="30">30</option>
+                </select>
+
+
+                <input type="submit" value="Select">
+            </form>
+
             <button id="submit">Submit</button>
             <p id="wpm"></p>
             <p id="accuracy"></p>

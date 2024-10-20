@@ -16,6 +16,8 @@ body {
     background: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-top: 10px;
+    height: fit-content;
 }
 
 .text-display {
@@ -43,7 +45,12 @@ textarea:focus {
 }
 
 .results {
-    margin-top: 20px;
+    /* margin-top: 10px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* gap: 5px; */
 }
 
 #timer, #wpm, #accuracy {
@@ -147,3 +154,68 @@ textarea:focus {
 .wpm.change, .accuracy.change {
     animation: flash 0.5s ease-in-out; /* Flash effect when value changes */
 }
+
+h2{
+    color: red;
+    
+}
+
+/* Form container */
+form {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+form label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Select dropdown styling */
+form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Focus effect for select dropdown */
+form select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Submit button styling */
+form input[type="submit"] {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for submit button */
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Add some spacing around the form */
+form {
+    margin-top: 50px;
+}
+

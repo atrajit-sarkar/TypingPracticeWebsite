@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>Select Menu Example</title>
 </head>
 <body>
-    <script src="script.js"></script>
+
+    <form id="myForm">
+        <label for="colors">Choose a color:</label>
+        <select id="colors" name="colors">
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="yellow">Yellow</option>
+        </select>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            // Prevent form from actually submitting to a server
+            event.preventDefault();
+
+            // Get the selected value
+            var selectedColor = document.getElementById('colors').value;
+
+            // Display the selected value
+            document.getElementById('result').textContent = "You selected: " + selectedColor;
+        });
+    </script>
+
 </body>
 </html>

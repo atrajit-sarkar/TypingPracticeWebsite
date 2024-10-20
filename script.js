@@ -48,7 +48,22 @@ async function loadText() {
     correctChars = 0;
     incorrectChars = 0;
     clearInterval(timerInterval);
-    document.getElementById('timer').innerText = 'Time: 2:00';
+    document.getElementById('timer').addEventListener('submit', function (event) {
+        // Prevent form from actually submitting to a server
+        event.preventDefault();
+
+        // Get the selected value
+        var selectedTime = document.getElementById('colors');
+        // Get the selected option
+        var selectedOption = selectedTime.options[selectedTime.selectedIndex];
+
+        // Get the inner text of the selected option
+        var selectedText = selectedOption.text;
+
+        // Display the selected value
+        document.getElementById('timer').innerHTML=`Time: ${selectedText}`;
+        timeLimit=parseInt(selectedTime.value)
+    });
 }
 
 // Start the typing timer and test
@@ -150,6 +165,9 @@ function showResults() {
     const accuracy = calculateAccuracy();
     document.getElementById('wpm').innerText = `WPM: ${wpm.toFixed(2)}`;
     document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
+    document.querySelector("#inputBox").remove()
+    document.querySelector("#submit").remove()
+    dynamic_result.innerHTML=`<h2>Stop Writing</h2>`
 }
 
 // Play keypress sounds
