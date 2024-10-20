@@ -138,6 +138,7 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
     // If the user has finished typing correctly, stop the timer and show results
     if (completed && userInput.length === originalText.length) {
         clearInterval(timerInterval);
+        document.getElementById('timer').remove()
         showResults();
     }
 });
@@ -145,6 +146,7 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
 //Submit button functionality:
 document.querySelector("#submit").addEventListener("click", () => {
     clearInterval(timerInterval);
+    document.getElementById('timer').remove()
     showResults();
 })
 
