@@ -99,6 +99,7 @@ function startTimer() {
         if (timeRemaining === 0) {
             clearInterval(timerInterval);
             showResults();
+            document.querySelector("#timer").remove()
         }
     }, 1000);
 }
@@ -138,8 +139,8 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
     // If the user has finished typing correctly, stop the timer and show results
     if (completed && userInput.length === originalText.length) {
         clearInterval(timerInterval);
-        document.getElementById('timer').remove()
         showResults();
+        document.getElementById('timer').remove()
     }
 });
 
