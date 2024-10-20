@@ -1,7 +1,7 @@
 let originalText = '';
 let startTime, timerInterval;
 let totalChars = 0, correctChars = 0, incorrectChars = 0;
-let timeLimit = 120; // 2 minutes
+let timeLimit // 2 minutes
 const dynamic_result = document.querySelector(".dynamic-result")
 
 // Fetch a random text file from the GitHub repo
