@@ -2,6 +2,7 @@ let originalText = '';
 let startTime, timerInterval;
 let totalChars = 0, correctChars = 0, incorrectChars = 0;
 let timeLimit = 120; // 2 minutes
+const dynamic_result = document.querySelector(".dynamic-result")
 
 // Fetch a random text file from the GitHub repo
 async function fetchRandomFile() {
@@ -52,6 +53,20 @@ async function loadText() {
 
 // Start the typing timer and test
 function startTypingTest() {
+    if (!document.querySelector(".wpm")) {
+
+        const wpm_div = document.createElement("div")
+        wpm_div.setAttribute("class", "wpm")
+        dynamic_result.append(wpm_div)
+    }
+
+    if (!document.querySelector(".accuracy")) {
+
+        const accuracy_div = document.createElement("div")
+        accuracy_div.setAttribute("class", "accuracy")
+        dynamic_result.append(accuracy_div)
+    }
+
     if (!startTime) {
         startTime = new Date();
         startTimer();
@@ -83,6 +98,7 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
     let displayText = '';
     let completed = true;
 
+
     for (let i = 0; i < originalText.length; i++) {
         if (userInput[i] === originalText[i]) {
             displayText += `<span class="correct">${originalText[i]}</span>`;
@@ -98,6 +114,11 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
     }
 
     document.getElementById('textToType').innerHTML = displayText;
+    // Display dynamic WPM and Accuracy
+    const wpm = document.querySelector(".wpm")
+    const accuracy = document.querySelector(".accuracy")
+    wpm.innerHTML = `WPM: ${calculateWPM().toFixed(2)}`
+    accuracy.innerHTML = `Accuracy: ${calculateAccuracy()}`
 
     // If the user has finished typing correctly, stop the timer and show results
     if (completed && userInput.length === originalText.length) {
@@ -105,6 +126,12 @@ document.getElementById('inputBox').addEventListener('input', function (e) {
         showResults();
     }
 });
+
+//Submit button functionality:
+document.querySelector("#submit").addEventListener("click", () => {
+    clearInterval(timerInterval);
+    showResults();
+})
 
 // Calculate WPM
 function calculateWPM() {
@@ -127,7 +154,7 @@ function showResults() {
 
 // Play keypress sounds
 document.getElementById('inputBox').addEventListener('keydown', function () {
-    const audio = new Audio('keypress.mp3'); // Replace with your sound file
+    const audio = new Audio('keypress1.mp3'); // Replace with your sound file
     audio.play();
 });
 
